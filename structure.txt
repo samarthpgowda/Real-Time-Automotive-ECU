@@ -1,0 +1,61 @@
+/**
+ * ================================================================
+ * REAL-TIME AUTOMOTIVE ECU SIMULATOR
+ * ================================================================
+ *
+ * Platform:
+ *     STM32F411RE
+ *
+ * RTOS:
+ *     FreeRTOS / CMSIS-RTOS2
+ *
+ * Communication:
+ *     USART2 - 115200 baud
+ *
+ * RTOS Concepts Demonstrated:
+ *     - Tasks
+ *     - Message Queues
+ *     - Event Flags
+ *     - Binary Semaphore
+ *     - Mutex
+ *     - Software Timer
+ *     - GPIO Interrupt
+ *
+ * Tasks:
+ *     EngineTask
+ *     SpeedTask
+ *     DashboardTask
+ *     DiagnosticTask
+ *     EmergencyTask
+ *     FuelTask
+ *
+ * Data Flow:
+ *
+ *     EngineTask ──────> Engine Queue ──────┐
+ *                                           │
+ *     SpeedTask ───────> Speed Queue ──────-┤
+ *                                           │
+ *                                           ▼
+ *                                    DashboardTask
+ *
+ *     FuelTask ────────> Fuel Queue
+ *                           │
+ *                           ▼
+ *                      Low Fuel Event
+ *
+ *     EngineTask ──────> Over Temperature Event
+ *
+ *     B1 Interrupt ────> Emergency Semaphore
+ *                              │
+ *                              ▼
+ *                        EmergencyTask
+ *
+ *     DiagnosticTimer ──> Emergency Event
+ *
+ *     All Tasks ────────> UART
+ *                          │
+ *                          ▼
+ *                       UART Mutex
+ *
+ * ================================================================
+ */
